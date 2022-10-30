@@ -1,5 +1,5 @@
 # Plex Move
-Move location of Plex media items bye genres
+Move location of Plex media items by genre
 
 
 ## Install 
