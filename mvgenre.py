@@ -72,6 +72,24 @@ def pathMove(fromLoc, toLocBase):
             # shutil.move(fromLoc, destDir)
 
 
+def printLocation():
+    if not (CONFIG.plexServer and CONFIG.plexToken):
+        print("Set the 'server_token' and 'server_url' in config.ini")
+        return
+
+    print("Connect to the Plex server: " + CONFIG.plexServer)
+    baseurl = CONFIG.plexServer  # 'http://{}:{}'.format(ip, port)
+    plex = PlexServer(baseurl, CONFIG.plexToken)
+    medias = plex.library.section(ARGS.section)
+    # for idx, video in enumerate(plex.library.all()):
+    docuCount = 0
+    for idx, video in enumerate(medias.all()):
+        if len(video.locations) > 0:
+            for loc in video.locations
+            print(loc)
+        else:
+            print('\033[33mNo location: %s \033[0m' % video.title)
+
 
 def movePlexLibrary():
     if not (CONFIG.plexServer and CONFIG.plexToken):
@@ -103,7 +121,8 @@ def main():
     loadArgs()
     readConfig()
     # if ARGS.plex_move:
-    movePlexLibrary()
+    # movePlexLibrary()
+    printLocation()
 
 
 if __name__ == '__main__':
