@@ -69,7 +69,7 @@ def pathMove(fromLoc, toLocBase):
         destDir = os.path.join(os.path.dirname(os.path.dirname(fromLoc)), toLocBase, basename)
         if not os.path.exists(destDir):
             print('mvdir ', fromLoc, destDir)
-            # shutil.move(fromLoc, destDir)
+            shutil.move(fromLoc, destDir)
 
 
 def printLocation():
