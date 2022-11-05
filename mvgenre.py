@@ -82,11 +82,10 @@ def printLocation():
     plex = PlexServer(baseurl, CONFIG.plexToken)
     medias = plex.library.section(ARGS.section)
     # for idx, video in enumerate(plex.library.all()):
-    docuCount = 0
     for idx, video in enumerate(medias.all()):
         if len(video.locations) > 0:
-            for loc in video.locations
-            print(loc)
+            for loc in video.locations:
+                print(loc)
         else:
             print('\033[33mNo location: %s \033[0m' % video.title)
 
