@@ -89,8 +89,8 @@ def printLocation():
     for idx, video in enumerate(medias.all()):
         print(video.title)
         if len(video.locations) > 0:
-            for loc in video.locations:
-                print("  >> " + loc)
+            for c, loc in enumerate(video.locations):
+                print("  %d >> %s" % (c, loc))
         else:
             print("  >> " + '\033[33mNo location: %s \033[0m' % video.title)
 
