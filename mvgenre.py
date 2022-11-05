@@ -77,6 +77,10 @@ def printLocation():
         print("Set the 'server_token' and 'server_url' in config.ini")
         return
 
+    if not (ARGS.section):
+        print("--section")
+        return 
+
     print("Connect to the Plex server: " + CONFIG.plexServer)
     baseurl = CONFIG.plexServer  # 'http://{}:{}'.format(ip, port)
     plex = PlexServer(baseurl, CONFIG.plexToken)
@@ -94,6 +98,9 @@ def movePlexLibrary():
     if not (CONFIG.plexServer and CONFIG.plexToken):
         print("Set the 'server_token' and 'server_url' in config.ini")
         return
+    if not (ARGS.section):
+        print("--section")
+        return 
 
     print("Connect to the Plex server: " + CONFIG.plexServer)
     baseurl = CONFIG.plexServer  # 'http://{}:{}'.format(ip, port)
