@@ -54,6 +54,7 @@ def loadArgs():
     parser.add_argument('--section', help='section of Plex library')
     parser.add_argument('--genre', help='genre to be select')
     parser.add_argument('--todir', help='dir to ../')
+    parser.add_argument('--trim-space', help='dir to folder')
     ARGS = parser.parse_args()
 
 def pathMove(fromLoc, toLocBase):
@@ -99,11 +100,22 @@ def movePlexLibrary():
                 print('\033[33mNo location: %s \033[0m' % video.title)
 
 
+def trimTrailingSpaceOfFolderName(sectionFolder):
+    for idx, fn in enumerate(os.listdir(sectionFolder)):
+        if fn.endswith(' '):
+            print(f'{idx}: {fn}')
+            os.rename(os.path.join(sectionFolder, fn), os.path.join(sectionFolder, fn.strip()))
+    print(f"Total: {idx}")
+
+
 def main():
     loadArgs()
     readConfig()
-    # if ARGS.plex_move:
-    movePlexLibrary()
+    if ARGS.trim_space:
+        trimTrailingSpaceOfFolderName(ARGS.trim_space)
+    else:
+        # if ARGS.plex_move:
+        movePlexLibrary()
 
 
 if __name__ == '__main__':
