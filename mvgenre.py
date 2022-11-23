@@ -70,14 +70,39 @@ def pathMove(fromLoc, toLocBase):
         destDir = os.path.join(os.path.dirname(os.path.dirname(fromLoc)), toLocBase, basename)
         if not os.path.exists(destDir):
             print('mvdir ', fromLoc, destDir)
-            # shutil.move(fromLoc, destDir)
+            shutil.move(fromLoc, destDir)
 
+
+def printLocation():
+    if not (CONFIG.plexServer and CONFIG.plexToken):
+        print("Set the 'server_token' and 'server_url' in config.ini")
+        return
+
+    if not (ARGS.section):
+        print("--section")
+        return 
+
+    print("Connect to the Plex server: " + CONFIG.plexServer)
+    baseurl = CONFIG.plexServer  # 'http://{}:{}'.format(ip, port)
+    plex = PlexServer(baseurl, CONFIG.plexToken)
+    medias = plex.library.section(ARGS.section)
+    # for idx, video in enumerate(plex.library.all()):
+    for idx, video in enumerate(medias.all()):
+        print(video.title)
+        if len(video.locations) > 0:
+            for c, loc in enumerate(video.locations):
+                print("  %d >> %s" % (c, loc))
+        else:
+            print("  >> " + '\033[33mNo location: %s \033[0m' % video.title)
 
 
 def movePlexLibrary():
     if not (CONFIG.plexServer and CONFIG.plexToken):
         print("Set the 'server_token' and 'server_url' in config.ini")
         return
+    if not (ARGS.section):
+        print("--section")
+        return 
 
     print("Connect to the Plex server: " + CONFIG.plexServer)
     baseurl = CONFIG.plexServer  # 'http://{}:{}'.format(ip, port)
@@ -116,7 +141,7 @@ def main():
     else:
         # if ARGS.plex_move:
         movePlexLibrary()
-
+        # printLocation()
 
 if __name__ == '__main__':
     main()
