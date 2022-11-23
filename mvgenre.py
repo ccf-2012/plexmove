@@ -129,7 +129,11 @@ def trimTrailingSpaceOfFolderName(sectionFolder):
     for idx, fn in enumerate(os.listdir(sectionFolder)):
         if fn.endswith(' '):
             print(f'{idx}: [{fn}]')
-            os.rename(os.path.join(sectionFolder, fn), os.path.join(sectionFolder, fn.strip()))
+            newfn = os.path.join(sectionFolder, fn.strip())
+            if not os.path.exists(newfn):
+                os.rename(os.path.join(sectionFolder, fn), newfn)
+            else:
+                print(f"[{newfn}] exists.")
     print(f"Total: {idx}")
 
 
