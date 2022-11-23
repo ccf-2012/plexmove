@@ -128,7 +128,7 @@ def movePlexLibrary():
 def trimTrailingSpaceOfFolderName(sectionFolder):
     for idx, fn in enumerate(os.listdir(sectionFolder)):
         if fn.endswith(' '):
-            print(f'{idx}: {fn}')
+            print(f'{idx}: [{fn}]')
             os.rename(os.path.join(sectionFolder, fn), os.path.join(sectionFolder, fn.strip()))
     print(f"Total: {idx}")
 
