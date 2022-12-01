@@ -55,6 +55,9 @@ def loadArgs():
     parser.add_argument('--genre', help='genre to be select')
     parser.add_argument('--todir', help='dir to ../')
     parser.add_argument('--trim-space', help='dir to folder')
+    parser.add_argument('--dryrun',
+                        action='store_true',
+                        help='print message instead of real move.')
     ARGS = parser.parse_args()
 
 
@@ -73,14 +76,18 @@ def pathMove(fromLoc, toLocBase):
     basename = os.path.basename(fromLoc)
     if os.path.isfile(fromLoc):
         print('\033[31mFile: [%s]\033[0m ' % fromLoc)
-
+        fromLoc = os.path.dirname(fromLoc)
     else:
-        destParentDir = os.path.join(os.path.dirname(os.path.dirname(fromLoc)), toLocBase)
+        print('\033[32mDirectory: [%s]\033[0m ' % fromLoc)
+    destParentDir = os.path.join(os.path.dirname(os.path.dirname(fromLoc)), toLocBase)
+
+    if os.path.exists(destParentDir):
         destDir = os.path.join(destParentDir, basename)
         if not os.path.exists(destDir):
             print('mvdir ', fromLoc, destDir)
-            ensureDir(destParentDir)
-            shutil.move(fromLoc, destDir)
+            if not ARGS.dryrun:
+                ensureDir(destParentDir)
+                shutil.move(fromLoc, destDir)
 
 
 def printLocation():
@@ -129,8 +136,9 @@ def movePlexLibrary():
                 # for g in video.genres:
                 #     print(" >>" + g.tag)
             if len(video.locations) > 0:
-                print(video.locations[0])
-                pathMove(video.locations[0], ARGS.todir)
+                for loc in video.locations:
+                    print(loc)
+                    pathMove(loc, ARGS.todir)
             else:
                 print('\033[33mNo location: %s \033[0m' % video.title)
 
