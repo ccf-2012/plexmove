@@ -72,6 +72,9 @@ def pathMove(fromLoc, toLocBase):
     if os.path.islink(fromLoc):
         print('\033[31mSKIP symbolic link: [%s]\033[0m ' % fromLoc)
         return
+    if not os.path.exists(fromLoc):
+        print('\033[34mNot found, maybe already moved: [%s]\033[0m ' % fromLoc)
+        return
 
     if os.path.isfile(fromLoc):
         print('\033[31mFile: [%s]\033[0m ' % fromLoc)
