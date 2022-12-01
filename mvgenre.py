@@ -79,9 +79,10 @@ def pathMove(fromLoc, toLocBase):
         fromLoc = os.path.dirname(fromLoc)
     else:
         print('\033[32mDirectory: [%s]\033[0m ' % fromLoc)
-    destParentDir = os.path.join(os.path.dirname(os.path.dirname(fromLoc)), toLocBase)
 
-    if os.path.exists(destParentDir):
+    catFolder = os.path.dirname(os.path.dirname(fromLoc))
+    if os.path.exists(catFolder):
+        destParentDir = os.path.join(catFolder, toLocBase)
         destDir = os.path.join(destParentDir, basename)
         if not os.path.exists(destDir):
             print('mvdir ', fromLoc, destDir)
