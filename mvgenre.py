@@ -73,13 +73,12 @@ def pathMove(fromLoc, toLocBase):
         print('\033[31mSKIP symbolic link: [%s]\033[0m ' % fromLoc)
         return
 
-    basename = os.path.basename(fromLoc)
     if os.path.isfile(fromLoc):
         print('\033[31mFile: [%s]\033[0m ' % fromLoc)
         fromLoc = os.path.dirname(fromLoc)
     else:
         print('\033[32mDirectory: [%s]\033[0m ' % fromLoc)
-
+    basename = os.path.basename(fromLoc)
     catFolder = os.path.dirname(os.path.dirname(fromLoc))
     if os.path.exists(catFolder):
         destParentDir = os.path.join(catFolder, toLocBase)
