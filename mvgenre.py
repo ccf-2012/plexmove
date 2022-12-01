@@ -83,7 +83,7 @@ def pathMove(fromLoc, toLocBase):
     if os.path.exists(catFolder):
         destParentDir = os.path.join(catFolder, toLocBase)
         destDir = os.path.join(destParentDir, basename)
-        if not os.path.exists(destDir):
+        if os.path.exists(fromLoc) and not os.path.exists(destDir):
             print('mvdir ', fromLoc, destDir)
             if not ARGS.dryrun:
                 ensureDir(destParentDir)
