@@ -57,6 +57,14 @@ def loadArgs():
     parser.add_argument('--trim-space', help='dir to folder')
     ARGS = parser.parse_args()
 
+
+def ensureDir(file_path):
+    if os.path.isfile(file_path):
+        file_path = os.path.dirname(file_path)
+    if not os.path.exists(file_path):
+        os.makedirs(file_path)
+
+
 def pathMove(fromLoc, toLocBase):
     if os.path.islink(fromLoc):
         print('\033[31mSKIP symbolic link: [%s]\033[0m ' % fromLoc)
@@ -67,9 +75,11 @@ def pathMove(fromLoc, toLocBase):
         print('\033[31mFile: [%s]\033[0m ' % fromLoc)
 
     else:
-        destDir = os.path.join(os.path.dirname(os.path.dirname(fromLoc)), toLocBase, basename)
+        destParentDir = os.path.join(os.path.dirname(os.path.dirname(fromLoc)), toLocBase)
+        destDir = os.path.join(destParentDir, basename)
         if not os.path.exists(destDir):
             print('mvdir ', fromLoc, destDir)
+            ensureDir(destParentDir)
             shutil.move(fromLoc, destDir)
 
 
