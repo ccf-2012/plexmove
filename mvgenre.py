@@ -140,7 +140,7 @@ def movePlexLibrary():
                 #     print(" >>" + g.tag)
             if len(video.locations) > 0:
                 for loc in video.locations:
-                    print(loc)
+                    # print(loc)
                     pathMove(loc, ARGS.todir)
             else:
                 print('\033[33mNo location: %s \033[0m' % video.title)
