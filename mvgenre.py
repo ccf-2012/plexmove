@@ -70,7 +70,7 @@ def ensureDir(file_path):
 
 def pathMove(fromLoc, toLocBase):
     if os.path.islink(fromLoc):
-        print('\033[31mSKIP symbolic link: [%s]\033[0m ' % fromLoc)
+        print('\033[31mSKIP symbolic link: [%s]\033[0m' % fromLoc)
         return
     if not os.path.exists(fromLoc):
         print('\033[34mNot found, maybe already moved: [%s]\033[0m ' % fromLoc)
@@ -86,11 +86,26 @@ def pathMove(fromLoc, toLocBase):
     if os.path.exists(catFolder):
         destParentDir = os.path.join(catFolder, toLocBase)
         destDir = os.path.join(destParentDir, basename)
-        if os.path.exists(fromLoc) and not os.path.exists(destDir):
-            print('mvdir ', fromLoc, destDir)
-            if not ARGS.dryrun:
-                ensureDir(destParentDir)
-                shutil.move(fromLoc, destDir)
+        if os.path.exists(fromLoc):
+            if not os.path.exists(destDir):
+                print('mvdir ', fromLoc, destDir)
+                if not ARGS.dryrun:
+                    ensureDir(destParentDir)
+                    shutil.move(fromLoc, destDir)
+            else:
+                print('dest exists: ', destDir)
+                print('moving sub items: %s ==> %s ' % (fromLoc, destDir))
+                for item in os.listdir(fromLoc):
+                    srcSubItem = os.path.join(fromLoc, item)
+                    desSubItem = os.path.join(destDir, item)
+                    if not os.path.exists(desSubItem):
+                        print('Moving: ', srcSubItem, desSubItem)
+                        shutil.move(srcSubItem, desSubItem)
+                    else:
+                        print('Dest dupe: ', desSubItem)
+                print('\033[34m check source dir: %s \033[0m' % fromLoc)
+                # shutil.rmtree(fromLoc)
+
 
 
 def printLocation():
