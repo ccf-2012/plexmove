@@ -120,7 +120,7 @@ def printLocation(lsSection):
     medias = plex.library.section(lsSection)
     # for idx, video in enumerate(plex.library.all()):
     for idx, video in enumerate(medias.all()):
-        print(video.title)
+        print("%d: %s" % (idx, video.title))
         if len(video.locations) > 0:
             for c, loc in enumerate(video.locations):
                 print("  %d >> %s" % (c, loc))
