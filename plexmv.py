@@ -55,6 +55,7 @@ def loadArgs():
     parser.add_argument('--genre', help='genre to be select')
     parser.add_argument('--todir', help='dir to ../')
     parser.add_argument('--trim-space', help='dir to folder')
+    parser.add_argument('--ls-section', help='Section name')
     parser.add_argument('--dryrun',
                         action='store_true',
                         help='print message instead of real move.')
@@ -93,19 +94,15 @@ def pathMove(fromLoc, toLocBase):
                 shutil.move(fromLoc, destDir)
 
 
-def printLocation():
+def printLocation(lsSection):
     if not (CONFIG.plexServer and CONFIG.plexToken):
         print("Set the 'server_token' and 'server_url' in config.ini")
         return
 
-    if not (ARGS.section):
-        print("--section")
-        return 
-
     print("Connect to the Plex server: " + CONFIG.plexServer)
     baseurl = CONFIG.plexServer  # 'http://{}:{}'.format(ip, port)
     plex = PlexServer(baseurl, CONFIG.plexToken)
-    medias = plex.library.section(ARGS.section)
+    medias = plex.library.section(lsSection)
     # for idx, video in enumerate(plex.library.all()):
     for idx, video in enumerate(medias.all()):
         print(video.title)
@@ -163,10 +160,11 @@ def main():
     readConfig()
     if ARGS.trim_space:
         trimTrailingSpaceOfFolderName(ARGS.trim_space)
+    elif ARGS.ls_section:
+        printLocation(ARGS.ls_section)
     else:
         # if ARGS.plex_move:
         movePlexLibrary()
-        # printLocation()
 
 if __name__ == '__main__':
     main()
